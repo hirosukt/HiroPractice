@@ -9,11 +9,7 @@ object QueueManager {
      * If match not found, return null.
      */
     fun searchStartableQueue(): EnumMatch? {
-        EnumMatch.values().forEach {
-            if (QueueData.queues.filter { queue -> queue.key.type == it }.size > 1) {
-                return it
-            }
-        }
+        EnumMatch.values().forEach { if (QueueData.queues.filter { queue -> queue.type == it }.size > 1) return it }
         return null
     }
 }

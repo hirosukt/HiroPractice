@@ -10,7 +10,9 @@ abstract class Match(val teams: List<Team>) {
 
     abstract val type: EnumMatch
     abstract val aliveTeams: MutableList<Team>
+    abstract val countdownSeconds: Int
 
+    abstract fun onCountdown()
     abstract fun onSeconds()
     abstract fun onStart()
     abstract fun onEnd()
@@ -24,7 +26,17 @@ abstract class Match(val teams: List<Team>) {
         initTeam()
         onStart()
 
+        var countdown = 0
+
         hiro.runTaskTimer(0, 20) {
+            countdown++
+
+            onCountdown()
+
+            if (countdown == countdownSeconds) cancel()
+        }
+
+        hiro.runTaskTimer(countdownSeconds + 1, 20) {
             onSeconds()
             scoreboard()
 
