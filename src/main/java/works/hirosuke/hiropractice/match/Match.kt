@@ -1,17 +1,45 @@
 package works.hirosuke.hiropractice.match
 
-import org.bukkit.entity.Player
+import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
+import works.hirosuke.hiropractice.queue.Team
+import works.hirosuke.hiropractice.util.SchedularUtil.runTaskTimer
 
-abstract class Match(private val teams: List<List<Player>>) {
+abstract class Match(val teams: List<Team>) {
 
     val size = teams.size
 
     abstract val type: EnumMatch
+    abstract val aliveTeams: MutableList<Team>
 
-    abstract fun begin()
-    abstract fun end()
+    abstract fun onSeconds()
+    abstract fun onStart()
+    abstract fun onEnd()
+    abstract fun scoreboard()
 
-    // end()で呼び出す
+    private fun isEnded(): Boolean {
+        return aliveTeams.size <= 1
+    }
+
+    fun start() {
+        initTeam()
+        onStart()
+
+        hiro.runTaskTimer(0, 20) {
+            onSeconds()
+            scoreboard()
+
+            if (isEnded()) {
+                onEnd()
+                reset()
+                cancel()
+            }
+        }
+    }
+
+    private fun initTeam() {
+        teams.forEach { aliveTeams.add(it) }
+    }
+
     fun reset() {
 
     }
