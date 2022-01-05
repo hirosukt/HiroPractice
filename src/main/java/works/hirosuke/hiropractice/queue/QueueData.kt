@@ -1,4 +1,4 @@
-package works.hirosuke.hiropractice
+package works.hirosuke.hiropractice.queue
 
 import org.bukkit.entity.Player
 import works.hirosuke.hiropractice.match.Match
