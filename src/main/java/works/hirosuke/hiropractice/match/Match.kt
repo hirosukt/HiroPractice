@@ -1,6 +1,9 @@
 package works.hirosuke.hiropractice.match
 
-abstract class Match {
+import org.bukkit.entity.Player
+
+abstract class Match(val teams: List<List<Player>>) {
+
     abstract fun begin()
     abstract fun end()
 
