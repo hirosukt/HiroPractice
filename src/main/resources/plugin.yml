@@ -5,3 +5,15 @@ prefix: HiroPractice
 authors: [ Hirosuke ]
 description: HiroPractice original plugin
 website: hirosuke.works
+commands:
+  hiro-practice:
+    aliases:
+      - hiro
+      - hr
+permissions:
+  hiropractice.commands.*:
+    default: op
+    children:
+      hiropractice.commands.hiro-practice: true
+  hiropractice.commands.hiro-practice:
+    default: op
