@@ -14,7 +14,7 @@ object SchedularUtil {
     }
 
     inline fun Plugin.runTaskTimer(delay: Int, period: Long, crossinline block: BukkitRunnable.() -> Unit): BukkitTask {
-        return bukkitRunnable(block).runTaskTimer(this, delay, period)
+        return bukkitRunnable(block).runTaskTimer(this, delay.toLong(), period)
     }
 
     inline fun Plugin.runTaskTimerAsync(delay: Long, period: Long, crossinline block: BukkitRunnable.() -> Unit): BukkitTask {
