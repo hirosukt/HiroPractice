@@ -52,7 +52,7 @@ abstract class Match(val teams: List<Team>) {
         teams.forEach { aliveTeams.add(it) }
     }
 
-    fun reset() {
+    private fun reset() {
 
     }
 }
