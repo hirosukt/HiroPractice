@@ -1,0 +1,7 @@
+name: HiroPractice
+version: '${version}'
+main: works.hirosuke.hiropractice.HiroPractice
+prefix: HiroPractice
+authors: [ Hirosuke ]
+description: HiroPractice original plugin
+website: hirosuke.works
