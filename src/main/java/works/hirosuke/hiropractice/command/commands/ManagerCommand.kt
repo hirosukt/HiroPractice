@@ -1,12 +1,13 @@
 package works.hirosuke.hiropractice.command.commands
 
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import works.hirosuke.hiropractice.command.Command
 
-object ManagerCommand: Command("hiro-practice") {
+object ManagerCommand: Command("hiropractice") {
 
     override fun onCommand(sender: CommandSender, label: String, args: Array<out String>) {
-        TODO("Not yet implemented")
+        if (sender !is Player || !sender.hasPermission("hiropractice.command.manager")) return
     }
 
     override fun onTabComplete(sender: CommandSender, label: String, args: Array<out String>): List<String>? {

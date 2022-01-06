@@ -1,12 +1,12 @@
 name: HiroPractice
-version: '${version}'
+version: '1.0.0'
 main: works.hirosuke.hiropractice.HiroPractice
 prefix: HiroPractice
 authors: [ Hirosuke ]
 description: HiroPractice original plugin
 website: hirosuke.works
 commands:
-  hiro-practice:
+  hiropractice:
     aliases:
       - hiro
       - hr
@@ -14,6 +14,6 @@ permissions:
   hiropractice.commands.*:
     default: op
     children:
-      hiropractice.commands.hiro-practice: true
-  hiropractice.commands.hiro-practice:
+      hiropractice.commands.manager: true
+  hiropractice.commands.manager:
     default: op
