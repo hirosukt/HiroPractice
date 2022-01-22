@@ -7,11 +7,12 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import works.hirosuke.hiropractice.util.ItemUtil
 
-class PlayerEvent: Listener {
+object PlayerEvent: Listener {
 
     @EventHandler
     fun on(e: BlockBreakEvent) {
@@ -25,6 +26,11 @@ class PlayerEvent: Listener {
 
     @EventHandler
     fun on(e: PlayerJoinEvent) {
-        e.player.inventory.setItem(0, ItemUtil.create(Material.IRON_SWORD, "&4&lUnranked Match"))
+        e.player.inventory.setItem(0, ItemUtil.create(Material.IRON_SWORD, "§4§lUnranked Match"))
+    }
+
+    @EventHandler
+    fun on(e: PlayerDropItemEvent) {
+
     }
 }

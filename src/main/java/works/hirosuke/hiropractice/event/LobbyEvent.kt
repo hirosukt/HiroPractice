@@ -7,7 +7,7 @@ import org.bukkit.event.block.BlockFadeEvent
 import org.bukkit.event.block.LeavesDecayEvent
 import org.bukkit.event.weather.WeatherChangeEvent
 
-class LobbyEvent: Listener {
+object LobbyEvent: Listener {
 
     @EventHandler
     fun on(e: LeavesDecayEvent) {

@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import works.hirosuke.hiropractice.gui.GuiManager
 
-class GuiEvent: Listener {
+object GuiEvent: Listener {
 
     @EventHandler
     fun on(e: InventoryClickEvent) {

@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class ChatEvent: Listener {
+object ChatEvent: Listener {
 
     @EventHandler
     fun on(e: AsyncPlayerChatEvent) {
