@@ -23,8 +23,8 @@ object GuiEvent: Listener {
 
         if (e.view.title == "§4§lUnranked Matches") {
             e.isCancelled = true
-            val item = e.currentItem.type ?: return
-            when (item) {
+            val item = e.currentItem ?: return
+            when (item.type) {
                 Material.LEASH -> {
                     QueueManager.enqueue(player, EnumMatch.SUMO)
                     e.whoClicked.sendMessage("You enqueued Sumo.")
