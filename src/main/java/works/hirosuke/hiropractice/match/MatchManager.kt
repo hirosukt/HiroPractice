@@ -2,21 +2,28 @@ package works.hirosuke.hiropractice.match
 
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
-import works.hirosuke.hiropractice.match.matches.Sumo
 
 object MatchManager {
 
+    val matches = mutableListOf<Match>()
+
     fun isMatching(player: Player): Boolean {
-        return player.gameMode == GameMode.SURVIVAL
+        return findMatch(player) != null
     }
 
-    fun getInstance(match: EnumMatch): Match {
-        return when (match) {
-            EnumMatch.SUMO -> Sumo()
+    /**
+     * Find a match player joining.
+     * if not found, return null.
+     */
+    fun findMatch(player: Player): Match? {
+        MatchData.matches.forEach {
+            it.value.forEach { team ->
+                if (team.contains(player)) {
+                    return it.key
+                }
+            }
         }
-    }
 
-    fun getInstanceByName(name: String): Match? {
-        return getInstance(EnumMatch.values().firstOrNull { it.name == name.uppercase() } ?: return null)
+        return null
     }
 }

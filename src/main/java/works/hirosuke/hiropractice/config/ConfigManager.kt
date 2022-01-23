@@ -1,25 +1,51 @@
 package works.hirosuke.hiropractice.config
 
 import org.bukkit.Location
-import org.bukkit.inventory.Inventory
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.inventory.ItemStack
+import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.match.EnumMatch
+import java.io.File
 
 object ConfigManager {
 
-    val inventories = mutableMapOf<EnumMatch, Inventory>()
-    val positions1 = mutableMapOf<EnumMatch, Location>()
-    val positions2 = mutableMapOf<EnumMatch, Location>()
+    val inventories = mutableMapOf<EnumMatch, Array<ItemStack>>()
+    val armors = mutableMapOf<EnumMatch, Array<ItemStack>>()
+    val stages = mutableMapOf<EnumMatch, MutableList<Location>>()
+
+    val directory = File("${hiro.dataFolder}/kits")
+
+    /**
+     * Setup kit files and kits directory.
+     * and create missing file.
+     */
+    fun setupDirectory() {
+        if (!directory.exists()) directory.mkdir()
+
+        EnumMatch.values().forEach {
+            val file = File("${directory}/${it.name}.yml")
+            if (!file.exists()) file.createNewFile()
+        }
+    }
 
     fun loadInventories() {
+        EnumMatch.values().forEach {
+            val file = File("${directory}/${it.name}.yml")
+            val yaml = YamlConfiguration()
+            yaml.load(file)
 
+            inventories[it] = yaml.getList("inventory") as Array<ItemStack>
+        }
     }
 
-    fun loadPositions1() {
+    fun loadArmors() {
+        EnumMatch.values().forEach {
+            val file = File("${directory}/${it.name}.yml")
+            val yaml = YamlConfiguration()
+            yaml.load(file)
 
-    }
-
-    fun loadPositions2() {
-
+            armors[it] = yaml.getList("armors") as Array<ItemStack>
+        }
     }
 
     fun loadAll() {
@@ -28,13 +54,5 @@ object ConfigManager {
 
     fun getInventory(match: EnumMatch) {
         inventories.firstNotNullOf { it.key == match }
-    }
-
-    fun getPosition1(match: EnumMatch) {
-        positions1.firstNotNullOf { it.key == match }
-    }
-
-    fun getPosition2(match: EnumMatch) {
-        positions2.firstNotNullOf { it.key == match }
     }
 }
