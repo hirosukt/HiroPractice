@@ -4,6 +4,7 @@ import org.bukkit.entity.Player
 import works.hirosuke.hiropractice.match.EnumMatch
 import works.hirosuke.hiropractice.match.Match
 import works.hirosuke.hiropractice.match.MatchManager
+import works.hirosuke.hiropractice.match.Team
 
 object QueueManager {
 
@@ -12,18 +13,21 @@ object QueueManager {
      * If match not found, return null.
      */
     private fun searchStartableQueue(): Match? {
-        EnumMatch.values().forEach { if (QueueData.queues.filter { queue -> queue.type == it }.size > 1) return MatchManager.getInstance(it) }
+        EnumMatch.values().forEach { match ->
+            val players = QueueData.queues.filter { it.value == match }.map { it.key }
+            if (players.size > 1) return MatchManager.getInstance(match, listOf(Team(listOf(players[0])), Team(listOf(players[1]))))
+        }
+
         return null
     }
 
     fun enqueue(match: EnumMatch, player: Player) {
-        val queue = Queue(match, player)
-        if (queue !in QueueData.queues) QueueData.queues.add(queue)
+        QueueData.queues[player] = match
 
         searchStartableQueue()?.start()
     }
 
-    fun dequeue(match: EnumMatch, player: Player) {
-        QueueData.queues.remove(Queue(match, player))
+    fun dequeue(player: Player) {
+        QueueData.queues.remove(player)
     }
 }

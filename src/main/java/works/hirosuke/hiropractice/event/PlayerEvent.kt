@@ -58,7 +58,7 @@ object PlayerEvent: Listener {
         val player = e.player
         if (MatchManager.isMatching(player) && MatchManager.findMatch(player)?.type == EnumMatch.SUMO) {
             if (MatchUtil.isInWater(player)) {
-                MatchManager.findMatch(player)?.end()
+                MatchManager.findMatch(player)?.onDeath(player)
             }
         }
     }

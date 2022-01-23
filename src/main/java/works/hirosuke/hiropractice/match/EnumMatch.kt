@@ -8,6 +8,6 @@ enum class EnumMatch(val icon: Material, val displayName: String) {
     ;
 
     fun queueings(): Int {
-        return QueueData.queues.filter { it.type == this }.size
+        return QueueData.queues.filter { it.value == this }.size
     }
 }

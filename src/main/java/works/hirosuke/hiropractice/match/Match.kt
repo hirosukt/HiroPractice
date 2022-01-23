@@ -15,14 +15,14 @@ abstract class Match(open var teams: List<Team>) {
 
     abstract val type: EnumMatch
     abstract val countdownSeconds: Int
-    abstract val aliveTeams: MutableList<Team>
+    abstract val aliveTeams: List<MutableTeam>
 
     abstract fun onDeath(player: Player)
     abstract fun start(vararg teams: Team)
     abstract fun end()
 
     fun findTeam(player: Player): Team {
-        return teams.first { it.members.contains(player) }
+        return aliveTeams.first { it.members.contains(player) }.toTeam()
     }
 
     fun spectator(player: Player) {
@@ -73,6 +73,7 @@ abstract class Match(open var teams: List<Team>) {
                 player.teleport(player.world.spawnLocation)
                 player.gameMode = GameMode.ADVENTURE
                 player.allowFlight = false
+                player.sendTitle("WINNER IS ${aliveTeams.filter { it.members.isNotEmpty() }.joinToString(", ")}", "")
             }
         }
     }

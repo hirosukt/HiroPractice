@@ -3,20 +3,21 @@ package works.hirosuke.hiropractice.match.matches
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import works.hirosuke.hiropractice.match.EnumMatch
-import works.hirosuke.hiropractice.match.Match
-import works.hirosuke.hiropractice.match.MatchManager
-import works.hirosuke.hiropractice.match.Team
+import works.hirosuke.hiropractice.match.*
 
 class Sumo(override var teams: List<Team>): Match(teams) {
 
     override val type: EnumMatch = EnumMatch.SUMO
     override val countdownSeconds: Int = 5
-    override val aliveTeams: MutableList<Team> = mutableListOf()
+    override val aliveTeams: List<MutableTeam> = listOf()
 
     override fun onDeath(player: Player) {
-        findTeam(player).members.remove(player)
+        aliveTeams.find { it.members.contains(player) }?.members?.remove(player)
         spectator(player)
+
+        if (aliveTeams.filter { it.members.isNotEmpty() }.size <= 1) {
+            end()
+        }
     }
 
     override fun start(vararg teams: Team) {

@@ -21,7 +21,7 @@ class HiroPractice : JavaPlugin() {
         // Plugin startup logic
         ManagerCommand.register()
 
-        ConfigManager.setupDirectory()
+//        ConfigManager.setupDirectory()
 
         listOf(ChatEvent, GuiEvent, LobbyEvent, PlayerEvent).forEach {
             server.pluginManager.registerEvents(it, this)

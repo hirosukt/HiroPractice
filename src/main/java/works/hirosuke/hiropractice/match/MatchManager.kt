@@ -1,7 +1,7 @@
 package works.hirosuke.hiropractice.match
 
-import org.bukkit.GameMode
 import org.bukkit.entity.Player
+import works.hirosuke.hiropractice.match.matches.Sumo
 
 object MatchManager {
 
@@ -25,5 +25,11 @@ object MatchManager {
         }
 
         return null
+    }
+
+    fun getInstance(match: EnumMatch, teams: List<Team>): Match {
+        return when(match) {
+            EnumMatch.SUMO -> Sumo(teams)
+        }
     }
 }
