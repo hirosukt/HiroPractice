@@ -6,6 +6,8 @@ import org.bukkit.inventory.ItemStack
 
 object ItemUtil {
 
+    val UNRANKED_SELECTOR = create(Material.IRON_SWORD, "§4§lUnranked Match")
+
     fun create(material: Material = Material.AIR, displayName: String = "", lore: List<String> = listOf(), amount: Int = 1, unbreakable: Boolean = false): ItemStack {
         val item = ItemStack(material)
         val meta = item.itemMeta

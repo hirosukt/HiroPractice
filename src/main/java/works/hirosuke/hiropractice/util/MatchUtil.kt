@@ -1,6 +1,5 @@
 package works.hirosuke.hiropractice.util
 
-import org.bukkit.Material
 import org.bukkit.entity.Player
 
 object MatchUtil {
@@ -16,6 +15,6 @@ object MatchUtil {
     }
 
     fun isInWater(player: Player): Boolean {
-        return player.location.block.type == Material.WATER
+        return player.world.getBlockAt(player.location).isLiquid
     }
 }

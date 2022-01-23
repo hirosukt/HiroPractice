@@ -17,11 +17,19 @@ object GuiEvent: Listener {
 
     @EventHandler
     fun on(e: InventoryClickEvent) {
-        if (e.view.title == "Unranked Matches") {
-            when (e.currentItem.type) {
+        val player = e.whoClicked
+
+        if (player !is Player) return
+
+        if (e.view.title == "§4§lUnranked Matches") {
+            e.isCancelled = true
+            val item = e.currentItem.type ?: return
+            when (item) {
                 Material.LEASH -> {
-                    QueueManager.enqueue(EnumMatch.SUMO, e.whoClicked as Player)
+                    QueueManager.enqueue(player, EnumMatch.SUMO)
+                    e.whoClicked.sendMessage("You enqueued Sumo.")
                 }
+                else -> return
             }
         }
     }
@@ -29,7 +37,8 @@ object GuiEvent: Listener {
     @EventHandler
     fun on(e: PlayerInteractEvent) {
         if (e.action in listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR)) {
-            if (e.item.type == Material.IRON_SWORD) {
+            val item = e.item.type ?: return
+            if (item == Material.IRON_SWORD) {
                 e.player.openInventory(GuiManager.unranked())
             }
         }

@@ -1,12 +1,10 @@
 package works.hirosuke.hiropractice.match
 
 import org.bukkit.entity.Player
+import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.match.matches.Sumo
 
 object MatchManager {
-
-    val matches = mutableListOf<Match>()
-
     fun isMatching(player: Player): Boolean {
         return findMatch(player) != null
     }
@@ -17,11 +15,8 @@ object MatchManager {
      */
     fun findMatch(player: Player): Match? {
         MatchData.matches.forEach {
-            it.value.forEach { team ->
-                if (team.contains(player)) {
-                    return it.key
-                }
-            }
+            val team = it.teams.firstOrNull { team -> team.members.contains(player) }
+            if (team != null) return it
         }
 
         return null
