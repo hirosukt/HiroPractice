@@ -1,6 +1,7 @@
 package works.hirosuke.hiropractice.event
 
 import org.bukkit.GameMode
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -36,6 +37,14 @@ object PlayerEvent: Listener {
     @EventHandler
     fun on(e: PlayerJoinEvent) {
         e.player.inventory.setItem(0, ItemUtil.UNRANKED_SELECTOR)
+        e.player.teleport(Location(e.player.world, 0.0, 6.0, 0.0))
+
+        hiro.server.onlinePlayers.forEach { player ->
+            hiro.server.onlinePlayers.forEach { member ->
+                player.showPlayer(member)
+                member.showPlayer(player)
+            }
+        }
     }
 
     @EventHandler

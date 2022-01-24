@@ -3,6 +3,7 @@ package works.hirosuke.hiropractice.match.matches
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.match.*
 import works.hirosuke.hiropractice.util.MatchUtil
 
@@ -33,20 +34,13 @@ class Sumo(override var teams: List<Team>): Match(teams) {
                 it.gameMode = GameMode.SURVIVAL
                 it.allowFlight = false
 
-                team.members.forEach { member ->
-                    it.showPlayer(member)
-                    member.showPlayer(it)
-                }
-
                 MatchUtil.setMovable(it, false)
             }
 
             spawnAtOpposition = !spawnAtOpposition
         }
 
-        startCountdown()
-
-        afterCountdown {
+        countdown {
             teams.forEach { team ->
                 team.members.forEach {
                     MatchUtil.setMovable(it, true)
