@@ -37,7 +37,7 @@ object GuiEvent: Listener {
     @EventHandler
     fun on(e: PlayerInteractEvent) {
         if (e.action in listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR)) {
-            val item = e.item.type ?: return
+            val item = (e.item ?: return).type ?: return
             if (item == Material.IRON_SWORD) {
                 e.player.openInventory(GuiManager.unranked())
             }

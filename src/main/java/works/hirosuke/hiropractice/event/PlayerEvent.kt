@@ -48,7 +48,7 @@ object PlayerEvent: Listener {
         val player = e.entity
         if (player !is Player) return
 
-        if (MatchManager.findMatch(player)?.noFood == true || MatchManager.findMatch(player)?.noFood == null) player.foodLevel = 20
+        e.isCancelled = MatchManager.findMatch(player)?.noFood == true || !MatchManager.isMatching(player)
     }
 
     @EventHandler
