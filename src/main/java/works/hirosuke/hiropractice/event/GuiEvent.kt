@@ -31,11 +31,9 @@ object GuiEvent: Listener {
                     player.enqueue(EnumMatch.SUMO)
                 }
                 else -> return
-            }.also {
-                player.closeInventory()
-                player.openInventory(GuiManager.unranked())
             }
 
+            player.closeInventory()
             e.whoClicked.sendMessage("You queued ${MatchManager.getEnumByIcon(item.type)?.displayName}.")
         }
     }
