@@ -31,6 +31,9 @@ object GuiEvent: Listener {
                     player.enqueue(EnumMatch.SUMO)
                 }
                 else -> return
+            }.also {
+                player.closeInventory()
+                player.openInventory(GuiManager.unranked())
             }
 
             e.whoClicked.sendMessage("You queued ${MatchManager.getEnumByIcon(item.type)?.displayName}.")
@@ -41,12 +44,14 @@ object GuiEvent: Listener {
     fun on(e: PlayerInteractEvent) {
         if (e.action in listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR)) {
             val item = (e.item ?: return).type
+            e.isCancelled = true
             when (item) {
                 Material.IRON_SWORD -> e.player.openInventory(GuiManager.unranked())
-                Material.TORCH -> e.player.dequeue()
-                else -> return
-            }.also {
-                e.isCancelled = true
+                Material.TORCH -> {
+                    e.player.dequeue()
+                    e.player.sendMessage("Leaved queue.")
+                }
+                else -> e.isCancelled = false
             }
         }
     }

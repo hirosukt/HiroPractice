@@ -46,7 +46,7 @@ abstract class Match(open var teams: List<Team>) {
                 player.sendMessage("Winner is ${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
 
                 hiro.runTaskLater(40) {
-                    player.teleport(Location(player.world, 0.0, 6.0, 0.0))
+                    player.teleport(Location(player.world, 0.5, 6.0, 0.5))
                     player.allowFlight = false
 
                     ItemUtil.setLobbyItem(player)

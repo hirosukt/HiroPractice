@@ -30,7 +30,7 @@ object PlayerEvent: Listener {
 
     @EventHandler
     fun on(e: PlayerJoinEvent) {
-        e.player.teleport(Location(e.player.world, 0.0, 6.0, 0.0))
+        e.player.teleport(Location(e.player.world, 0.5, 6.0, 0.5))
         ItemUtil.setLobbyItem(e.player)
 
         hiro.server.onlinePlayers.forEach { player ->
