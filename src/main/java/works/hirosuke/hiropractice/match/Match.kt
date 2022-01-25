@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.util.ItemUtil
+import works.hirosuke.hiropractice.util.dequeue
 import works.hirosuke.hiropractice.util.runTaskLater
 import works.hirosuke.hiropractice.util.runTaskTimer
 
@@ -34,6 +35,12 @@ abstract class Match(open var teams: List<Team>) {
 
     fun startOriginal(teams: List<Team>) {
         MatchData.matches.add(this)
+
+        teams.forEach { team ->
+            team.members.forEach {
+                it.dequeue()
+            }
+        }
 
         start(teams)
     }

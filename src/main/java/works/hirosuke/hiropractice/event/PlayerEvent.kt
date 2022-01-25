@@ -89,7 +89,7 @@ object PlayerEvent: Listener {
         }
 
         val x = 0.5
-        val y = 0.2
+        val y = 0.28
         val z = 0.5
 
         hiro.runTaskLater(1) {
