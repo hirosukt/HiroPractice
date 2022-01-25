@@ -2,25 +2,19 @@ package works.hirosuke.hiropractice.event
 
 import org.bukkit.GameMode
 import org.bukkit.Location
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.*
-import org.bukkit.util.Vector
 import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.match.EnumMatch
 import works.hirosuke.hiropractice.match.MatchManager
-import works.hirosuke.hiropractice.util.ItemUtil
-import works.hirosuke.hiropractice.util.MatchUtil
-import works.hirosuke.hiropractice.util.SchedularUtil.runTaskLater
-import works.hirosuke.hiropractice.util.isGround
+import works.hirosuke.hiropractice.util.*
 
 object PlayerEvent: Listener {
 
@@ -48,8 +42,13 @@ object PlayerEvent: Listener {
     }
 
     @EventHandler
-    fun on(e: PlayerDropItemEvent) {
+    fun on(e: PlayerQuitEvent) {
+        e.player.dequeue()
+    }
 
+    @EventHandler
+    fun on(e: PlayerDropItemEvent) {
+        e.player
     }
 
     @EventHandler
@@ -69,10 +68,10 @@ object PlayerEvent: Listener {
     fun on(e: PlayerMoveEvent) {
         val player = e.player
 
-        if (!MatchUtil.isMovable(player)) player.teleport(e.from)
+        if (!player.isMovable()) player.teleport(e.from)
 
         if (MatchManager.findMatch(player)?.type == EnumMatch.SUMO) {
-            if (MatchUtil.isInWater(player)) {
+            if (player.isInWater()) {
                 MatchManager.findMatch(player)?.onDeath(player)
             }
         }

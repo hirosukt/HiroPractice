@@ -12,6 +12,7 @@ import works.hirosuke.hiropractice.match.EnumMatch
 import works.hirosuke.hiropractice.match.MatchManager
 import works.hirosuke.hiropractice.match.matches.Sumo
 import works.hirosuke.hiropractice.queue.QueueManager
+import works.hirosuke.hiropractice.util.enqueue
 
 object GuiEvent: Listener {
 
@@ -26,11 +27,12 @@ object GuiEvent: Listener {
             val item = e.currentItem ?: return
             when (item.type) {
                 Material.LEASH -> {
-                    QueueManager.enqueue(player, EnumMatch.SUMO)
-                    e.whoClicked.sendMessage("You enqueued Sumo.")
+                    player.enqueue(EnumMatch.SUMO)
                 }
                 else -> return
             }
+
+            e.whoClicked.sendMessage("You enqueued ${MatchManager.getEnumByIcon(item.type)?.displayName}")
         }
     }
 

@@ -3,16 +3,11 @@ package works.hirosuke.hiropractice.match
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.scheduler.BukkitTask
 import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
-import works.hirosuke.hiropractice.queue.QueueManager
 import works.hirosuke.hiropractice.util.ItemUtil
-import works.hirosuke.hiropractice.util.MatchUtil
-import works.hirosuke.hiropractice.util.SchedularUtil
-import works.hirosuke.hiropractice.util.SchedularUtil.runTaskLater
-import works.hirosuke.hiropractice.util.SchedularUtil.runTaskTimer
+import works.hirosuke.hiropractice.util.runTaskLater
+import works.hirosuke.hiropractice.util.runTaskTimer
 
 
 abstract class Match(open var teams: List<Team>) {

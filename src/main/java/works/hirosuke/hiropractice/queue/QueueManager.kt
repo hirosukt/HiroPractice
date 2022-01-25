@@ -13,25 +13,12 @@ object QueueManager {
      * Search a match queueing players are above 1.
      * If match not found, return null.
      */
-    private fun searchStartableQueue(match: EnumMatch): Match? {
+    fun searchStartableQueue(match: EnumMatch): Match? {
         val players = QueueData.queues.filter { it.value == match }.map { it.key }
         if (players.size > 1) {
             return MatchManager.getInstance(match, listOf(Team(listOf(players[0])), Team(listOf(players[1]))))
         }
 
         return null
-    }
-
-    fun enqueue(player: Player, match: EnumMatch) {
-        dequeue(player)
-        QueueData.queues[player] = match
-
-        val found = searchStartableQueue(match)
-
-        found?.startOriginal(found.teams)
-    }
-
-    fun dequeue(player: Player) {
-        QueueData.queues.remove(player)
     }
 }

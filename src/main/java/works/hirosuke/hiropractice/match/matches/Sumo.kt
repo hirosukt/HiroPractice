@@ -3,9 +3,8 @@ package works.hirosuke.hiropractice.match.matches
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.match.*
-import works.hirosuke.hiropractice.util.MatchUtil
+import works.hirosuke.hiropractice.util.setMovable
 
 class Sumo(override var teams: List<Team>): Match(teams) {
 
@@ -34,7 +33,7 @@ class Sumo(override var teams: List<Team>): Match(teams) {
                 it.gameMode = GameMode.SURVIVAL
                 it.allowFlight = false
 
-                MatchUtil.setMovable(it, false)
+                it.setMovable(false)
             }
 
             spawnAtOpposition = !spawnAtOpposition
@@ -43,7 +42,7 @@ class Sumo(override var teams: List<Team>): Match(teams) {
         countdown {
             teams.forEach { team ->
                 team.members.forEach {
-                    MatchUtil.setMovable(it, true)
+                    it.setMovable(true)
                 }
             }
         }
