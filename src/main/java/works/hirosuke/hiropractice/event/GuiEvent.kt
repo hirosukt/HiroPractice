@@ -34,7 +34,7 @@ object GuiEvent: Listener {
             }
 
             player.closeInventory()
-            e.whoClicked.sendMessage("§7You queued §6§l${MatchManager.getEnumByIcon(item.type)?.displayName}.")
+            e.whoClicked.sendMessage("§7You queued §6§l${MatchManager.getEnumByIcon(item.type)?.displayName}")
         }
     }
 
