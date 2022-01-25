@@ -91,9 +91,16 @@ object PlayerEvent: Listener {
         val x = 0.5
         val y = 0.28
         val z = 0.5
+        val airx = 0.2
+        val airy = 0.1
+        val airz = 0.2
 
         hiro.runTaskLater(1) {
-            player.velocity = player.velocity.setX(attacker.location.direction.x * x).setY(if (player.isGround()) y else 0.1).setZ(attacker.location.direction.z * z)
+            player.velocity = if (!player.isGround()) {
+                player.velocity.setX(attacker.location.direction.x * x).setY(y).setZ(attacker.location.direction.z * z)
+            } else {
+                player.velocity.setX(attacker.location.direction.x * airx).setY(airy).setZ(attacker.location.direction.z * airz)
+            }
         }
     }
 }
