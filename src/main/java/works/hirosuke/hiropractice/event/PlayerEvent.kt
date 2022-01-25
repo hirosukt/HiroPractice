@@ -88,12 +88,12 @@ object PlayerEvent: Listener {
             e.damage = 0.0
         }
 
-        val x = 0.5
+        val x = 0.6
         val y = 0.3
-        val z = 0.5
-        val airx = 0.2
+        val z = 0.6
+        val airx = 0.28
         val airy = 0.1
-        val airz = 0.2
+        val airz = 0.28
 
         hiro.runTaskLater(1) {
             player.velocity = if (player.isGround()) {

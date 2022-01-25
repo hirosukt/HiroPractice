@@ -9,6 +9,6 @@ object ChatEvent: Listener {
     @EventHandler
     fun on(e: AsyncPlayerChatEvent) {
         val team = e.player.server.scoreboardManager.mainScoreboard.teams.firstOrNull { it.hasPlayer(e.player) }
-        e.format = "${if (team != null) team.prefix else ""}${e.player.name}§7: ${e.message}"
+        e.format = "${if (team != null) team.prefix else ""}${e.player.name}: ${e.message}"
     }
 }

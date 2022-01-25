@@ -73,7 +73,7 @@ abstract class Match(open var teams: List<Team>) {
 
             teams.forEach { team ->
                 team.members.forEach {
-                    it.sendTitle("Start in $count", "")
+                    it.sendMessage("Start in $count")
                     it.playSound(it.location, Sound.CLICK, .5f, 1f)
                 }
             }
