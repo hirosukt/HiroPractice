@@ -2,6 +2,7 @@ package works.hirosuke.hiropractice.match
 
 import org.bukkit.GameMode
 import org.bukkit.Location
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
@@ -51,6 +52,7 @@ abstract class Match(open var teams: List<Team>) {
             team.members.forEach { player ->
                 player.gameMode = GameMode.ADVENTURE
                 player.sendMessage("Winner is ${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
+                player.playSound(player.location, Sound.ORB_PICKUP, .5f, 1f)
 
                 hiro.runTaskLater(40) {
                     player.teleport(Location(player.world, 0.5, 6.0, 0.5))
@@ -71,7 +73,8 @@ abstract class Match(open var teams: List<Team>) {
 
             teams.forEach { team ->
                 team.members.forEach {
-                    it.sendMessage("Start in $count")
+                    it.sendTitle("Start in $count", "")
+                    it.playSound(it.location, Sound.CLICK, .5f, 1f)
                 }
             }
 
@@ -81,6 +84,7 @@ abstract class Match(open var teams: List<Team>) {
                 teams.forEach { team ->
                     team.members.forEach {
                         it.sendMessage("Start")
+                        it.playSound(it.location, Sound.CLICK, .5f, 2f)
                     }
                 }
 

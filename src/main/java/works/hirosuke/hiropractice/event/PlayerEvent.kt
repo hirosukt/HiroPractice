@@ -89,7 +89,7 @@ object PlayerEvent: Listener {
         }
 
         val x = 0.5
-        val y = 0.28
+        val y = 0.3
         val z = 0.5
         val airx = 0.2
         val airy = 0.1
