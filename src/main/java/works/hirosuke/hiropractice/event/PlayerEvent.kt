@@ -30,8 +30,8 @@ object PlayerEvent: Listener {
 
     @EventHandler
     fun on(e: PlayerJoinEvent) {
-        e.player.inventory.setItem(0, ItemUtil.UNRANKED_SELECTOR)
         e.player.teleport(Location(e.player.world, 0.0, 6.0, 0.0))
+        ItemUtil.setLobbyItem(e.player)
 
         hiro.server.onlinePlayers.forEach { player ->
             hiro.server.onlinePlayers.forEach { member ->
@@ -88,9 +88,9 @@ object PlayerEvent: Listener {
             e.damage = 0.0
         }
 
-        val x = 0.6
-        val y = 0.35
-        val z = 0.6
+        val x = 0.5
+        val y = 0.2
+        val z = 0.5
 
         hiro.runTaskLater(1) {
             player.velocity = player.velocity.setX(attacker.location.direction.x * x).setY(if (player.isGround()) y else 0.1).setZ(attacker.location.direction.z * z)

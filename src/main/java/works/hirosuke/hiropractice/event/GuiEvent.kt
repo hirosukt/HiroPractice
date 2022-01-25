@@ -12,6 +12,7 @@ import works.hirosuke.hiropractice.match.EnumMatch
 import works.hirosuke.hiropractice.match.MatchManager
 import works.hirosuke.hiropractice.match.matches.Sumo
 import works.hirosuke.hiropractice.queue.QueueManager
+import works.hirosuke.hiropractice.util.dequeue
 import works.hirosuke.hiropractice.util.enqueue
 
 object GuiEvent: Listener {
@@ -40,10 +41,11 @@ object GuiEvent: Listener {
     fun on(e: PlayerInteractEvent) {
         if (e.action in listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR)) {
             val item = (e.item ?: return).type
-            e.player.openInventory(when (item) {
-                Material.IRON_SWORD -> GuiManager.unranked()
+            when (item) {
+                Material.IRON_SWORD -> e.player.openInventory(GuiManager.unranked())
+                Material.TORCH -> e.player.dequeue()
                 else -> return
-            }).also {
+            }.also {
                 e.isCancelled = true
             }
         }

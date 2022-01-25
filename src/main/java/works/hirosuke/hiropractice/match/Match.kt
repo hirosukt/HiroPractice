@@ -39,7 +39,21 @@ abstract class Match(open var teams: List<Team>) {
     }
 
     fun endOriginal() {
-        reset()
+
+        teams.forEach { team ->
+            team.members.forEach { player ->
+                player.gameMode = GameMode.ADVENTURE
+                player.sendMessage("Winner is ${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
+
+                hiro.runTaskLater(40) {
+                    player.teleport(Location(player.world, 0.0, 6.0, 0.0))
+                    player.allowFlight = false
+
+                    ItemUtil.setLobbyItem(player)
+                }
+            }
+        }
+
         MatchData.matches.remove(this)
         end()
     }
@@ -68,20 +82,5 @@ abstract class Match(open var teams: List<Team>) {
         }
 
         hiro.runTaskLater((countdownSeconds * 20).toLong(), after)
-    }
-
-    private fun reset() {
-        teams.forEach { team ->
-            team.members.forEach { player ->
-                player.gameMode = GameMode.ADVENTURE
-                player.sendMessage("Winner is ${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
-
-                hiro.runTaskLater(40) {
-                    player.teleport(Location(player.world, 0.0, 6.0, 0.0))
-                    player.allowFlight = false
-                    player.inventory.setItem(0, ItemUtil.UNRANKED_SELECTOR)
-                }
-            }
-        }
     }
 }
