@@ -51,9 +51,9 @@ abstract class Match(open var teams: List<Team>) {
         teams.forEach { team ->
             team.members.forEach { player ->
                 player.gameMode = GameMode.ADVENTURE
-                player.sendMessage("§7§l§m                        ")
+                player.sendMessage("§7§l§m                                                 ")
                 player.sendMessage("Winner is §6§l${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
-                player.sendMessage("§7§l§m                        ")
+                player.sendMessage("§7§l§m                                                 ")
                 player.playSound(player.location, Sound.ORB_PICKUP, .5f, 1f)
 
                 hiro.runTaskLater(40) {
