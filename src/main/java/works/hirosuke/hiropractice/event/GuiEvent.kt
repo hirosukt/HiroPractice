@@ -34,7 +34,7 @@ object GuiEvent: Listener {
             }
 
             player.closeInventory()
-            e.whoClicked.sendMessage("You queued ${MatchManager.getEnumByIcon(item.type)?.displayName}.")
+            e.whoClicked.sendMessage("§7You queued §6§l${MatchManager.getEnumByIcon(item.type)?.displayName}.")
         }
     }
 
@@ -47,7 +47,7 @@ object GuiEvent: Listener {
                 Material.IRON_SWORD -> e.player.openInventory(GuiManager.unranked())
                 Material.TORCH -> {
                     e.player.dequeue()
-                    e.player.sendMessage("Leaved queue.")
+                    e.player.sendMessage("§7Leaved queue.")
                 }
                 else -> e.isCancelled = false
             }

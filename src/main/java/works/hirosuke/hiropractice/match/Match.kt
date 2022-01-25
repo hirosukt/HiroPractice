@@ -51,7 +51,9 @@ abstract class Match(open var teams: List<Team>) {
         teams.forEach { team ->
             team.members.forEach { player ->
                 player.gameMode = GameMode.ADVENTURE
-                player.sendMessage("Winner is ${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
+                player.sendMessage("§7§l§m                        ")
+                player.sendMessage("Winner is §6§l${aliveTeams.filter { it.members.isNotEmpty() }[0].members.joinToString(", ") { it.name }}")
+                player.sendMessage("§7§l§m                        ")
                 player.playSound(player.location, Sound.ORB_PICKUP, .5f, 1f)
 
                 hiro.runTaskLater(40) {
@@ -73,7 +75,7 @@ abstract class Match(open var teams: List<Team>) {
 
             teams.forEach { team ->
                 team.members.forEach {
-                    it.sendMessage("Start in $count")
+                    it.sendMessage("§7Start in $count")
                     it.playSound(it.location, Sound.CLICK, .5f, 1f)
                 }
             }
@@ -83,7 +85,7 @@ abstract class Match(open var teams: List<Team>) {
             if (count == 0) {
                 teams.forEach { team ->
                     team.members.forEach {
-                        it.sendMessage("Start")
+                        it.sendMessage("§7§lStart")
                         it.playSound(it.location, Sound.CLICK, .5f, 2f)
                     }
                 }
