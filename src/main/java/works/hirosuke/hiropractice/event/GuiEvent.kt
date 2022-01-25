@@ -32,7 +32,7 @@ object GuiEvent: Listener {
                 else -> return
             }
 
-            e.whoClicked.sendMessage("You enqueued ${MatchManager.getEnumByIcon(item.type)?.displayName}")
+            e.whoClicked.sendMessage("You queued ${MatchManager.getEnumByIcon(item.type)?.displayName}.")
         }
     }
 
@@ -40,8 +40,11 @@ object GuiEvent: Listener {
     fun on(e: PlayerInteractEvent) {
         if (e.action in listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR)) {
             val item = (e.item ?: return).type
-            if (item == Material.IRON_SWORD) {
-                e.player.openInventory(GuiManager.unranked())
+            e.player.openInventory(when (item) {
+                Material.IRON_SWORD -> GuiManager.unranked()
+                else -> return
+            }).also {
+                e.isCancelled = true
             }
         }
     }
