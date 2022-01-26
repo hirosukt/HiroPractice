@@ -29,7 +29,7 @@ class Sumo(override var teams: List<Team>): Match(teams) {
         teams.forEach { team ->
             team.members.forEach {
                 it.inventory.clear()
-                it.teleport(Location(it.world, 10000.5, 11.0, if (spawnAtOpposition) -4.5 else 5.5, if (spawnAtOpposition) 0f else 180f, 0f))
+                it.teleport(Location(it.world, 10000.5, 100.0, if (spawnAtOpposition) -4.5 else 5.5, if (spawnAtOpposition) 0f else 180f, 0f))
                 it.gameMode = GameMode.SURVIVAL
                 it.allowFlight = false
 

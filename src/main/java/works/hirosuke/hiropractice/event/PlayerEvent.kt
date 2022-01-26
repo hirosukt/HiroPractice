@@ -30,7 +30,7 @@ object PlayerEvent: Listener {
 
     @EventHandler
     fun on(e: PlayerJoinEvent) {
-        e.player.teleport(Location(e.player.world, 0.5, 6.0, 0.5))
+        e.player.teleport(Location(e.player.world, 0.5, 10.0, 0.5))
         ItemUtil.setLobbyItem(e.player)
 
         hiro.server.onlinePlayers.forEach { player ->
@@ -44,6 +44,10 @@ object PlayerEvent: Listener {
     @EventHandler
     fun on(e: PlayerQuitEvent) {
         e.player.dequeue()
+
+        if (e.player.isMatching()) {
+            e.player.findMatch()?.onDeath(e.player)
+        }
     }
 
     @EventHandler
@@ -56,7 +60,7 @@ object PlayerEvent: Listener {
         val player = e.entity
         if (player !is Player) return
 
-        e.isCancelled = MatchManager.findMatch(player)?.noFood == true || !MatchManager.isMatching(player)
+        e.isCancelled = player.findMatch()?.noFood == true || !player.isMatching()
     }
 
     @EventHandler
@@ -70,9 +74,9 @@ object PlayerEvent: Listener {
 
         if (!player.isMovable()) player.teleport(e.from)
 
-        if (MatchManager.findMatch(player)?.type == EnumMatch.SUMO) {
+        if (player.findMatch()?.type == EnumMatch.SUMO) {
             if (player.isInWater()) {
-                MatchManager.findMatch(player)?.onDeath(player)
+                player.findMatch()?.onDeath(player)
             }
         }
     }
@@ -84,16 +88,21 @@ object PlayerEvent: Listener {
 
         if (player !is Player || attacker !is Player) return
 
-        if (MatchManager.findMatch(player)?.noDamage == true) {
+        if (player.isMatching()) {
+            e.isCancelled = true
+            return
+        }
+
+        if (player.findMatch()?.noDamage == true) {
             e.damage = 0.0
         }
 
-        val x = 0.6
+        val x = 0.7
         val y = 0.3
-        val z = 0.6
-        val airx = 0.28
-        val airy = 0.1
-        val airz = 0.28
+        val z = 0.7
+        val airx = 0.3
+        val airy = 0.15
+        val airz = 0.3
 
         hiro.runTaskLater(1) {
             player.velocity = if (player.isGround()) {

@@ -56,8 +56,8 @@ abstract class Match(open var teams: List<Team>) {
                 player.sendMessage("§7§l§m                                                 ")
                 player.playSound(player.location, Sound.ORB_PICKUP, .5f, 1f)
 
-                hiro.runTaskLater(40) {
-                    player.teleport(Location(player.world, 0.5, 6.0, 0.5))
+                hiro.runTaskLater(50) {
+                    player.teleport(Location(player.world, 0.5, 10.0, 0.5))
                     player.allowFlight = false
 
                     ItemUtil.setLobbyItem(player)
@@ -82,11 +82,10 @@ abstract class Match(open var teams: List<Team>) {
 
             count--
 
-            if (count == 0) {
+            if (count == -1) {
                 teams.forEach { team ->
                     team.members.forEach {
                         it.sendMessage("§7§lStart")
-                        it.playSound(it.location, Sound.CLICK, .5f, 2f)
                     }
                 }
 
