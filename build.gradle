@@ -17,14 +17,14 @@ repositories {
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
     maven {
-        name = 'enginehub-maven'
-        url = 'https://maven.enginehub.org/repo/'
+        url "https://repo.dmulloy2.net/repository/public/"
     }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
-    compileOnly "com.comphenix.protocol:ProtocolLib:4.7.0";
+    compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
+    compileOnly "com.comphenix.protocol:ProtocolLib:4.7.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 

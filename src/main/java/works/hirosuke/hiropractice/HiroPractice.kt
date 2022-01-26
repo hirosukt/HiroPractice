@@ -1,4 +1,6 @@
 package works.hirosuke.hiropractice
+import com.comphenix.protocol.ProtocolLibrary
+import com.comphenix.protocol.ProtocolManager
 import org.bukkit.plugin.java.JavaPlugin
 import works.hirosuke.hiropractice.command.commands.ManagerCommand
 import works.hirosuke.hiropractice.config.ConfigManager
@@ -20,8 +22,6 @@ class HiroPractice : JavaPlugin() {
     override fun onEnable() {
         // Plugin startup logic
         ManagerCommand.register()
-
-//        ConfigManager.setupDirectory()
 
         listOf(ChatEvent, GuiEvent, LobbyEvent, PlayerEvent).forEach {
             server.pluginManager.registerEvents(it, this)

@@ -1,10 +1,17 @@
 package works.hirosuke.hiropractice.event
 
+import com.comphenix.protocol.PacketType
+import com.comphenix.protocol.ProtocolLibrary
+import com.comphenix.protocol.events.PacketContainer
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity
 import org.bukkit.GameMode
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -38,6 +45,13 @@ object PlayerEvent: Listener {
                 player.showPlayer(member)
                 member.showPlayer(player)
             }
+        }
+    }
+
+    @EventHandler
+    fun on(e: PlayerInteractEvent) {
+        if (e.action == Action.PHYSICAL && e.clickedBlock.type == Material.SOIL) {
+            e.isCancelled = true
         }
     }
 
@@ -88,7 +102,7 @@ object PlayerEvent: Listener {
 
         if (player !is Player || attacker !is Player) return
 
-        if (player.isMatching()) {
+        if (!player.isMatching()) {
             e.isCancelled = true
             return
         }
@@ -97,19 +111,31 @@ object PlayerEvent: Listener {
             e.damage = 0.0
         }
 
-        val x = 0.7
-        val y = 0.3
-        val z = 0.7
-        val airx = 0.3
-        val airy = 0.15
-        val airz = 0.3
+        val x = .7
+        val y = .3
+        val z = .7
+        val airx = .3
+        val airy = .15
+        val airz = .3
 
-        hiro.runTaskLater(1) {
-            player.velocity = if (player.isGround()) {
-                player.velocity.setX(attacker.location.direction.x * x).setY(y).setZ(attacker.location.direction.z * z)
-            } else {
-                player.velocity.setX(attacker.location.direction.x * airx).setY(airy).setZ(attacker.location.direction.z * airz)
-            }
-        }
+//        val manager = ProtocolLibrary.getProtocolManager()
+//        val container = PacketContainer(PacketType.Play.Server.ENTITY_VELOCITY).apply {
+//            integers.write(0, player.entityId)
+//
+//            integers.write(1, if (player.isGround()) x else airx)
+//            integers.write(2, if (player.isGround()) y else airy)
+//            integers.write(3, if (player.isGround()) z else airz)
+//        }
+//
+//        manager.sendServerPacket(player, container)
+
+        (player as CraftPlayer).handle.playerConnection.sendPacket(
+            PacketPlayOutEntityVelocity(
+                player.entityId,
+                if (player.isGround()) x else airx,
+                if (player.isGround()) y else airy,
+                if (player.isGround()) z else airz
+            )
+        )
     }
 }
