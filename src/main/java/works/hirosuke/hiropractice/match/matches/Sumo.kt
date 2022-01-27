@@ -56,7 +56,7 @@ class Sumo(override var teams: List<Team>): Match(teams) {
 
     }
 
-    override fun scoreboard() {
+    override fun scoreboardOriginal() {
         TODO("Not yet implemented")
     }
 }

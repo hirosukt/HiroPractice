@@ -25,7 +25,7 @@ abstract class Match(open var teams: List<Team>) {
     abstract fun onDeath(player: Player)
     protected abstract fun startOriginal(teams: List<Team>)
     protected abstract fun endOriginal()
-    protected abstract fun scoreboard()
+    protected abstract fun scoreboardOriginal()
 
     fun findTeam(player: Player): Team {
         return aliveTeams.first { it.members.contains(player) }.toTeam()
@@ -37,6 +37,17 @@ abstract class Match(open var teams: List<Team>) {
         player.gameMode = GameMode.ADVENTURE
         player.inventory.contents.forEach { player.world.dropItemNaturally(player.location, it) }
         player.inventory.clear()
+    }
+
+    protected fun scoreboard(scores: List<String>) {
+        val manager = hiro.server.scoreboardManager.newScoreboard
+        val objective = manager.getObjective("borad") ?: manager.registerNewObjective("   §4§lHiro Practice§r   ", "")
+
+        var count = 0
+
+        scores.forEach {
+            objective.getScore(it).score
+        }
     }
 
     fun start(teams: List<Team>) {
