@@ -11,7 +11,7 @@ fun Player.enqueue(match: EnumMatch) {
 
     val found = QueueManager.searchStartableQueue(match)
 
-    found?.startOriginal(found.teams)
+    found?.start(found.teams)
 }
 
 fun Player.dequeue() {

@@ -1,13 +1,8 @@
 package works.hirosuke.hiropractice.event
 
-import com.comphenix.protocol.PacketType
-import com.comphenix.protocol.ProtocolLibrary
-import com.comphenix.protocol.events.PacketContainer
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -15,12 +10,13 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.*
 import works.hirosuke.hiropractice.HiroPractice.Companion.hiro
 import works.hirosuke.hiropractice.match.EnumMatch
-import works.hirosuke.hiropractice.match.MatchManager
+import works.hirosuke.hiropractice.match.matches.Boxing
 import works.hirosuke.hiropractice.util.*
 
 object PlayerEvent: Listener {
@@ -86,12 +82,20 @@ object PlayerEvent: Listener {
     fun on(e: PlayerMoveEvent) {
         val player = e.player
 
-        if (!player.isMovable()) player.teleport(e.from)
-
         if (player.findMatch()?.type == EnumMatch.SUMO) {
             if (player.isInWater()) {
                 player.findMatch()?.onDeath(player)
             }
+        }
+    }
+
+    @EventHandler
+    fun on(e: EntityDamageEvent) {
+        val player = e.entity as? Player
+
+        if (player?.isInvulnerable == true) {
+            e.isCancelled = true
+            return
         }
     }
 
@@ -102,40 +106,37 @@ object PlayerEvent: Listener {
 
         if (player !is Player || attacker !is Player) return
 
-        if (!player.isMatching()) {
-            e.isCancelled = true
-            return
-        }
-
-        if (player.findMatch()?.noDamage == true) {
+        if (player.findMatch()?.zeroDamage == true) {
             e.damage = 0.0
         }
 
-        val x = .7
-        val y = .3
-        val z = .7
-        val airx = .3
-        val airy = .15
-        val airz = .3
+        when (player.findMatch()?.type) {
+            EnumMatch.BOXING -> {
+                val match = player.findMatch()
+                (match as Boxing).hits[match.findTeam(player)] = (match.hits[match.findTeam(player)] ?: return).inc()
+            }
+            else -> return
+        }
+    }
 
-//        val manager = ProtocolLibrary.getProtocolManager()
-//        val container = PacketContainer(PacketType.Play.Server.ENTITY_VELOCITY).apply {
-//            integers.write(0, player.entityId)
-//
-//            integers.write(1, if (player.isGround()) x else airx)
-//            integers.write(2, if (player.isGround()) y else airy)
-//            integers.write(3, if (player.isGround()) z else airz)
-//        }
-//
-//        manager.sendServerPacket(player, container)
+    @EventHandler
+    fun on(e: PlayerVelocityEvent) {
+        if (e.player.lastDamageCause is EntityDamageByEntityEvent) {
 
-        (player as CraftPlayer).handle.playerConnection.sendPacket(
-            PacketPlayOutEntityVelocity(
-                player.entityId,
-                if (player.isGround()) x else airx,
-                if (player.isGround()) y else airy,
-                if (player.isGround()) z else airz
-            )
-        )
+            val damager = (e.player.lastDamageCause as? EntityDamageByEntityEvent)?.damager ?: return
+
+            val x = damager.location.direction.x * .73
+            val y = .33
+            val z = damager.location.direction.z * .73
+            val airx = damager.location.direction.x * .67
+            val airy = .25
+            val airz = damager.location.direction.z * .67
+
+            e.player.velocity = if (e.player.isGround()) {
+                e.velocity.setX(x).setY(y).setZ(z)
+            } else {
+                e.velocity.setX(airx).setY(airy).setZ(airz)
+            }
+        }
     }
 }

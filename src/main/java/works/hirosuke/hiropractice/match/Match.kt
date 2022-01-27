@@ -16,25 +16,30 @@ abstract class Match(open var teams: List<Team>) {
 
     abstract val type: EnumMatch
     abstract val countdownSeconds: Int
-    abstract val aliveTeams: List<MutableTeam>
+    protected abstract val aliveTeams: List<MutableTeam>
+    abstract val zeroDamage: Boolean
     abstract val noDamage: Boolean
     abstract val noFood: Boolean
+    abstract val noDelay: Boolean
 
     abstract fun onDeath(player: Player)
-    abstract fun start(teams: List<Team>)
-    abstract fun end()
+    protected abstract fun startOriginal(teams: List<Team>)
+    protected abstract fun endOriginal()
+    protected abstract fun scoreboard()
 
     fun findTeam(player: Player): Team {
         return aliveTeams.first { it.members.contains(player) }.toTeam()
     }
 
-    fun spectator(player: Player) {
+    protected fun spectator(player: Player) {
         player.allowFlight = true
         player.isFlying = true
         player.gameMode = GameMode.ADVENTURE
+        player.inventory.contents.forEach { player.world.dropItemNaturally(player.location, it) }
+        player.inventory.clear()
     }
 
-    fun startOriginal(teams: List<Team>) {
+    fun start(teams: List<Team>) {
         MatchData.matches.add(this)
 
         teams.forEach { team ->
@@ -43,10 +48,10 @@ abstract class Match(open var teams: List<Team>) {
             }
         }
 
-        start(teams)
+        startOriginal(teams)
     }
 
-    fun endOriginal() {
+    fun end() {
 
         teams.forEach { team ->
             team.members.forEach { player ->
@@ -66,10 +71,10 @@ abstract class Match(open var teams: List<Team>) {
         }
 
         MatchData.matches.remove(this)
-        end()
+        endOriginal()
     }
 
-    inline fun countdown(crossinline after: BukkitRunnable.() -> Unit) {
+    protected inline fun countdown(crossinline after: BukkitRunnable.() -> Unit) {
         var count = countdownSeconds
         hiro.runTaskTimer(0, 20) {
 

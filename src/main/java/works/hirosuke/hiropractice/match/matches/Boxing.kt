@@ -3,18 +3,22 @@ package works.hirosuke.hiropractice.match.matches
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import works.hirosuke.hiropractice.match.*
+import works.hirosuke.hiropractice.match.EnumMatch
+import works.hirosuke.hiropractice.match.Match
+import works.hirosuke.hiropractice.match.MutableTeam
+import works.hirosuke.hiropractice.match.Team
 import works.hirosuke.hiropractice.util.isInvulnerable
 
-class Sumo(override var teams: List<Team>): Match(teams) {
-
-    override val type: EnumMatch = EnumMatch.SUMO
+class Boxing(override var teams: List<Team>): Match(teams) {
+    override val type: EnumMatch = EnumMatch.BOXING
     override val countdownSeconds: Int = 5
     override val aliveTeams: List<MutableTeam> = teams.map { it.toMutableTeam() }
     override val zeroDamage: Boolean = true
     override val noFood: Boolean = true
     override val noDelay: Boolean = false
     override val noDamage: Boolean = false
+
+    var hits = mutableMapOf<Team, Int>()
 
     override fun onDeath(player: Player) {
         aliveTeams.firstOrNull { it.members.contains(player) }?.members?.remove(player)
@@ -46,7 +50,6 @@ class Sumo(override var teams: List<Team>): Match(teams) {
             teams.forEach { team ->
                 team.members.forEach {
                     spawn(it)
-                    it.isInvulnerable = false
                 }
             }
         }
