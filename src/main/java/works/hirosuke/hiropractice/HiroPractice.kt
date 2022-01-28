@@ -1,9 +1,6 @@
 package works.hirosuke.hiropractice
-import com.comphenix.protocol.ProtocolLibrary
-import com.comphenix.protocol.ProtocolManager
 import org.bukkit.plugin.java.JavaPlugin
 import works.hirosuke.hiropractice.command.commands.ManagerCommand
-import works.hirosuke.hiropractice.config.ConfigManager
 import works.hirosuke.hiropractice.event.ChatEvent
 import works.hirosuke.hiropractice.event.GuiEvent
 import works.hirosuke.hiropractice.event.LobbyEvent
